@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SYSTEM: OVERLORD REGISTRY</title>
+    <title>SYSTEM: MONARCH REGISTRY</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --sys-blue: #00eeff; --sys-purple: #8a2be2; --sys-gold: #ffcc00; --license-blue: #0056b3; --dark-pane: rgba(0, 10, 20, 0.9); }
+        :root { --sys-blue: #00eeff; --sys-red: #ff004c; --sys-purple: #8a2be2; --card-bg: #0d0e12; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
@@ -17,129 +17,146 @@
         /* TOP STAT BAR */
         .top-status {
             display: flex; justify-content: space-between; padding: 12px 20px;
-            background: linear-gradient(180deg, rgba(0,238,255,0.1) 0%, transparent 100%);
-            border-bottom: 1px solid var(--sys-blue); font-family: 'Orbitron'; font-size: 0.65rem; letter-spacing: 1px;
+            background: rgba(0,0,0,0.8); border-bottom: 1px solid var(--sys-red);
+            font-family: 'Orbitron'; font-size: 0.65rem; letter-spacing: 1px; box-shadow: 0 0 15px rgba(255, 0, 76, 0.2);
         }
 
-        /* PREMIUM LICENSE CARD */
-        .license-container { padding: 20px 15px; display: flex; justify-content: center; }
+        /* SCI-FI NEON CARD */
+        .license-container { padding: 25px 15px; display: flex; justify-content: center; }
         .license-card {
-            width: 100%; max-width: 350px; height: 210px;
-            background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
-            border-radius: 12px; position: relative; overflow: hidden;
-            color: #222; border: 1px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 100%; max-width: 360px; height: 210px;
+            background: var(--card-bg); border-radius: 15px; position: relative; overflow: hidden;
+            border: 2px solid #222; box-shadow: 0 0 30px rgba(0,0,0,1);
+            background-image: linear-gradient(135deg, rgba(0,238,255,0.05) 0%, rgba(255,0,76,0.05) 100%);
         }
-        .blue-header { background: var(--license-blue); height: 40px; padding-left: 125px; display: flex; align-items: center; color: #fff; font-family: 'Orbitron'; font-size: 0.6rem; border-bottom: 2px solid #003d80; }
-        .photo-slot { position: absolute; top: 15px; left: 12px; width: 100px; height: 130px; background: #eee; border: 1px solid #bbb; z-index: 5; border-radius: 4px; overflow: hidden; }
-        .photo-slot img { width: 100%; height: 100%; object-fit: cover; }
-        .rank-badge { position: absolute; right: 0; top: 40px; width: 70px; height: 70px; background: #fff; border-left: 1px solid #eee; border-bottom: 1px solid #eee; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .rank-letter { font-size: 2.5rem; font-weight: bold; color: var(--license-blue); font-family: 'Orbitron'; line-height: 1; }
-        .info-body { margin-left: 125px; padding-top: 10px; }
-        .hunter-name { font-size: 1.1rem; font-weight: 700; color: var(--license-blue); text-transform: uppercase; }
-        .footer-details { position: absolute; bottom: 0; width: 100%; height: 55px; background: #2c2c2c; color: #fff; display: flex; align-items: center; padding: 0 15px; font-size: 0.5rem; border-top: 2px solid #c5a059; }
-        .smart-chip { width: 32px; height: 22px; background: linear-gradient(135deg, #d4af37, #f9f295); border-radius: 3px; margin-right: 12px; }
 
-        /* HOLOGRAPHIC SYSTEM PANES */
-        .section { display: none; padding: 15px; animation: arise 0.3s ease; }
+        /* Neon Borders */
+        .license-card::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--sys-blue), var(--sys-red), var(--sys-purple));
+        }
+
+        .card-header { 
+            height: 45px; padding-left: 130px; display: flex; align-items: center;
+            background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .header-tag { font-family: 'Orbitron'; font-size: 0.7rem; color: var(--sys-blue); text-shadow: 0 0 5px var(--sys-blue); }
+
+        .photo-slot { 
+            position: absolute; top: 15px; left: 15px; width: 100px; height: 130px; 
+            border: 1px solid var(--sys-blue); z-index: 5; border-radius: 5px; overflow: hidden;
+            box-shadow: 0 0 15px rgba(0,238,255,0.2); background: #111;
+        }
+        .photo-slot img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.1); }
+
+        .rank-glow { 
+            position: absolute; right: 10px; top: 10px; width: 60px; height: 60px; 
+            background: rgba(0,0,0,0.5); border: 1px solid var(--sys-red); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px var(--sys-red);
+        }
+        .rank-letter { font-size: 2.2rem; font-weight: bold; color: #fff; font-family: 'Orbitron'; text-shadow: 0 0 10px var(--sys-red); }
+
+        .info-body { margin-left: 130px; padding-top: 10px; }
+        .hunter-name { font-size: 1.3rem; font-weight: 700; color: #fff; letter-spacing: 1px; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        .id-text { font-size: 0.5rem; color: var(--sys-blue); font-family: 'Orbitron'; }
+
+        .footer-details { 
+            position: absolute; bottom: 0; width: 100%; height: 60px; 
+            background: rgba(255,0,76,0.1); backdrop-filter: blur(5px);
+            display: flex; align-items: center; padding: 0 15px; font-size: 0.55rem;
+            border-top: 1px solid var(--sys-red);
+        }
+        .tech-chip { width: 35px; height: 25px; background: linear-gradient(45deg, #333, #666); border: 1px solid var(--sys-blue); border-radius: 4px; margin-right: 12px; }
+
+        /* SYSTEM STYLE */
+        .section { display: none; padding: 20px; animation: arise 0.4s ease; }
         .section.active { display: block; }
-        @keyframes arise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes arise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
 
         .sys-pane { 
-            background: var(--dark-pane); border: 1px solid var(--sys-blue); 
-            padding: 15px; border-radius: 4px; margin-bottom: 12px;
-            clip-path: polygon(0 0, 97% 0, 100% 10px, 100% 100%, 3% 100%, 0 90%);
+            background: rgba(10,10,15,0.9); border: 1px solid #333; padding: 15px; border-radius: 5px; margin-bottom: 12px;
+            box-shadow: inset 0 0 10px rgba(0,238,255,0.05);
         }
+        .stat-row { display: flex; justify-content: space-between; font-family: 'Orbitron'; font-size: 0.7rem; color: var(--sys-blue); margin-bottom: 5px; }
+        .bar-bg { width: 100%; height: 4px; background: #222; margin-bottom: 12px; }
+        .bar-fill { height: 100%; background: var(--sys-red); box-shadow: 0 0 10px var(--sys-red); transition: 1s; }
 
-        .stat-row { display: flex; justify-content: space-between; font-family: 'Orbitron'; font-size: 0.7rem; color: var(--sys-blue); margin-bottom: 4px; }
-        .bar-bg { width: 100%; height: 4px; background: rgba(255,255,255,0.1); margin-bottom: 12px; }
-        .bar-fill { height: 100%; background: var(--sys-blue); box-shadow: 0 0 10px var(--sys-blue); transition: 1s; }
-
-        /* INPUTS & BUTTONS */
-        input, select { width: 100%; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid #333; color: #fff; border-radius: 4px; margin-top: 5px; font-family: 'Rajdhani'; }
-        .btn-prime { width: 100%; padding: 12px; background: transparent; border: 1px solid var(--sys-blue); color: var(--sys-blue); font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; margin-top: 10px; }
-        .btn-prime:active { background: var(--sys-blue); color: #000; }
+        /* INPUTS */
+        input, select { width: 100%; padding: 12px; background: #111; border: 1px solid #333; color: #fff; border-radius: 4px; margin-top: 8px; font-family: 'Rajdhani'; }
+        .btn-prime { 
+            width: 100%; padding: 15px; background: transparent; border: 1px solid var(--sys-red); 
+            color: var(--sys-red); font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;
+        }
+        .btn-prime:active { background: var(--sys-red); color: #fff; box-shadow: 0 0 20px var(--sys-red); }
 
         /* NAV */
-        nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--sys-blue); z-index: 1000; }
-        nav button { background: none; border: none; color: #444; font-size: 1.3rem; cursor: pointer; }
-        nav button.active { color: var(--sys-blue); filter: drop-shadow(0 0 8px var(--sys-blue)); }
+        nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #222; }
+        nav button { background: none; border: none; color: #444; font-size: 1.4rem; cursor: pointer; }
+        nav button.active { color: var(--sys-red); filter: drop-shadow(0 0 8px var(--sys-red)); }
     </style>
 </head>
 <body>
 
     <div class="top-status">
-        <span style="color:var(--sys-gold);">🪙 50 GOLD</span>
-        <span style="color:var(--sys-purple)">⚛ SHADOW MONARCH</span>
+        <span style="color:var(--sys-blue);">LVL. 99</span>
+        <span style="color:var(--sys-red); text-shadow: 0 0 5px var(--sys-red);">SHADOW MONARCH</span>
     </div>
 
     <div id="home" class="section active">
         <div class="license-container">
             <div class="license-card">
-                <div class="blue-header">HUNTER'S LICENSE</div>
+                <div class="card-header"><div class="header-tag">HUNTER REGISTRY // VER 2.0</div></div>
                 <div class="photo-slot"><img id="d-img" src="https://i.pinimg.com/736x/21/87/44/218744b82d9664687700e31818d89e18.jpg"></div>
-                <div class="rank-badge"><div class="rank-letter" id="d-rank">S</div><div style="font-size:0.4rem; font-weight:bold; color:#888;">RANK</div></div>
+                <div class="rank-glow"><div class="rank-letter" id="d-rank">S</div></div>
+                
                 <div class="info-body">
                     <div class="hunter-name" id="d-name">SUNG JINWOO</div>
-                    <div style="font-size:0.5rem; color:#888; font-weight:bold;">ASSOCIATION ID: #777-SYST</div>
+                    <div class="id-text">UUID: 88-X-SHADOW-001</div>
                 </div>
+
                 <div class="footer-details">
-                    <div class="smart-chip"></div>
-                    <div id="d-address">
-                        CAPITAL: SEOUL (SEOUL)<br>STATE: GYEONGGI-DO<br>COUNTRY: REPUBLIC OF KOREA
+                    <div class="tech-chip"></div>
+                    <div id="d-address" style="line-height: 1.2;">
+                        COUNTRY: SOUTH KOREA<br>
+                        STATE: SEOUL METRO<br>
+                        CAPITAL: SEOUL
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="sys-pane">
-            <div class="stat-row"><span>STRENGTH (STR)</span><span>10</span></div>
-            <div class="bar-bg"><div class="bar-fill" style="width: 30%"></div></div>
-            <div class="stat-row"><span>INTELLIGENCE (INT)</span><span>08</span></div>
-            <div class="bar-bg"><div class="bar-fill" style="width: 25%; background: var(--sys-purple);"></div></div>
-        </div>
-    </div>
-
-    <div id="quests" class="section">
-        <div class="sys-pane">
-            <div style="color:var(--sys-blue); font-family:'Orbitron'; margin-bottom:10px;">DAILY QUEST</div>
-            <div style="font-size:0.9rem;">Training: 100 Pushups</div>
-            <button class="btn-prime">START MISSION</button>
-        </div>
-    </div>
-
-    <div id="world" class="section">
-        <div class="sys-pane">
-            <div style="color:var(--sys-blue); font-family:'Orbitron'; margin-bottom:10px;">GLOBAL REGISTRY</div>
-            <div style="display:flex; justify-content:space-between; font-size:0.8rem; padding:5px 0; border-bottom:1px solid #222;">
-                <span>#1 SUNG JIN-WOO</span><span>RANK S</span>
-            </div>
+            <div class="stat-row"><span>STRENGTH (STR)</span><span style="color:var(--sys-red)">999</span></div>
+            <div class="bar-bg"><div class="bar-fill" style="width: 100%"></div></div>
+            <div class="stat-row"><span>AGILITY (AGI)</span><span style="color:var(--sys-blue)">999</span></div>
+            <div class="bar-bg"><div class="bar-fill" style="width: 100%; background:var(--sys-blue); box-shadow: 0 0 10px var(--sys-blue);"></div></div>
         </div>
     </div>
 
     <div id="config" class="section">
         <div class="sys-pane">
-            <label style="font-size:0.6rem; color:var(--sys-blue); font-family:'Orbitron';">IDENTITY SETUP</label>
-            <input type="text" id="in-name" placeholder="Full Name">
-            <input type="file" id="in-photo" accept="image/*" onchange="previewImg()">
+            <div style="color:var(--sys-red); font-family:'Orbitron'; margin-bottom:15px;">REWRITE IDENTITY</div>
             
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
+            <input type="text" id="in-name" placeholder="Name">
+            <input type="file" id="in-photo" onchange="previewImg()">
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                 <input type="text" id="in-country" placeholder="Country">
                 <input type="text" id="in-state" placeholder="State">
             </div>
-            <input type="text" id="in-capital" placeholder="Capital City">
+            <input type="text" id="in-capital" placeholder="Capital">
             
-            <select id="in-rank" style="margin-top:10px;">
-                <option value="S">S-RANK</option><option value="A">A-RANK</option><option value="B">B-RANK</option>
+            <select id="in-rank">
+                <option value="S">S-RANK</option><option value="A">A-RANK</option><option value="E">E-RANK</option>
             </select>
             
-            <button class="btn-prime" onclick="updateRegistry()">RE-ISSUE LICENSE</button>
+            <button class="btn-prime" onclick="updateRegistry()">EXECUTE RE-ISSUE</button>
         </div>
     </div>
 
     <nav>
         <button onclick="nav('home')" id="n-home" class="active">👤</button>
-        <button onclick="nav('quests')" id="n-quests">📜</button>
-        <button onclick="nav('world')" id="n-world">🏆</button>
+        <button onclick="nav('home')" style="opacity:0.2">📜</button>
         <button onclick="nav('config')" id="n-config">⚙</button>
     </nav>
 
@@ -169,14 +186,14 @@
             document.getElementById('d-rank').innerText = r;
             
             let addr = "";
-            if(cap) addr += `CAPITAL: ${cap.toUpperCase()} (${cap.toUpperCase()})<br>`;
+            if(c) addr += `COUNTRY: ${c.toUpperCase()}<br>`;
             if(s) addr += `STATE: ${s.toUpperCase()}<br>`;
-            if(c) addr += `COUNTRY: ${c.toUpperCase()}`;
+            if(cap) addr += `CAPITAL: ${cap.toUpperCase()}`;
             if(addr) document.getElementById('d-address').innerHTML = addr;
 
-            alert("SYSTEM: License Synchronization Complete.");
+            alert("SYSTEM: Identity Updated.");
             nav('home');
         }
     </script>
 </body>
-        </html>
+    </html>
