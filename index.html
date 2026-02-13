@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HUNTER ASSOCIATION SYSTEM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --hunter-blue: #0078d4; --dark-bg: #1a1a1a; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: #f0f2f5; color: #333; font-family: 'Roboto', sans-serif; margin: 0; padding-bottom: 90px; }
+
+        /* Navigation Bar - Clean Style */
+        nav { position: fixed; bottom: 0; width: 100%; background: #fff; border-top: 1px solid #ddd; display: flex; justify-content: space-around; padding: 12px 0; z-index: 1000; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
+        nav button { background: none; border: none; color: #888; font-family: 'Orbitron'; font-size: 0.6rem; cursor: pointer; }
+        nav button.active { color: var(--hunter-blue); font-weight: bold; }
+
+        .section { display: none; padding: 20px; animation: fadeIn 0.3s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* THE OFFICIAL LICENSE CARD (Screenshot Match) */
+        .license-card {
+            width: 100%; max-width: 360px; height: 210px;
+            background: #fff; border-radius: 8px; margin: 0 auto 20px;
+            position: relative; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 1px solid #ccc;
+        }
+        .blue-header { background: var(--hunter-blue); height: 45px; display: flex; align-items: center; padding-left: 140px; }
+        .header-text { color: #fff; font-family: 'Roboto'; font-weight: bold; font-size: 0.8rem; letter-spacing: 0.5px; }
+        
+        .photo-area { position: absolute; top: 25px; left: 15px; width: 110px; height: 130px; background: #eee; border: 1px solid #ddd; z-index: 2; overflow: hidden; }
+        .photo-area img { width: 100%; height: 100%; object-fit: cover; }
+
+        .main-info { margin-left: 140px; padding-top: 10px; }
+        .korean-name { color: var(--hunter-blue); font-size: 1.1rem; font-weight: bold; }
+        .english-name { color: var(--hunter-blue); font-size: 0.9rem; margin-left: 5px; }
+        
+        .rank-box { 
+            position: absolute; right: 0; top: 45px; width: 80px; height: 80px; 
+            background: #fff; border-left: 1px solid #ddd; border-bottom: 1px solid #ddd;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .rank-letter { font-size: 3rem; font-weight: bold; color: var(--hunter-blue); font-family: 'Orbitron'; line-height: 1; }
+        .rank-label { font-size: 0.6rem; font-weight: bold; color: var(--hunter-blue); }
+
+        .details-grid { 
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 65px; 
+            background: #333; color: #fff; display: flex; align-items: center; padding-left: 15px; font-size: 0.6rem;
+        }
+        .chip { width: 35px; height: 25px; background: #c5a059; border-radius: 4px; margin-right: 15px; background-image: linear-gradient(90deg, transparent 50%, rgba(0,0,0,0.1) 50%); }
+
+        /* UI Controls */
+        .control-panel { background: #fff; border-radius: 10px; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; }
+        .btn-system { width: 100%; padding: 12px; background: var(--hunter-blue); color: #fff; border: none; border-radius: 5px; font-family: 'Orbitron'; font-size: 0.7rem; margin-top: 10px; }
+        input, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <div id="home" class="section active">
+        <h3 style="text-align:center; font-family:'Orbitron'; color:#666; font-size:0.7rem;">HUNTER AUTHENTICATION SUCCESSFUL</h3>
+        
+        <div class="license-card">
+            <div class="blue-header">
+                <div class="header-text">Official Hunter's License<br><span style="font-size:0.6rem; font-weight:normal;">헌터 자격증 >>></span></div>
+            </div>
+            
+            <div class="photo-area">
+                <img src="https://i.pinimg.com/736x/21/87/44/218744b82d9664687700e31818d89e18.jpg" alt="Hunter Photo">
+            </div>
+
+            <div class="rank-box">
+                <div class="rank-letter" id="d-rank-let">S</div>
+                <div class="rank-label">RANK</div>
+            </div>
+
+            <div class="main-info">
+                <div class="korean-name">성진우 <span class="english-name" id="d-name">Sung Jinwoo</span></div>
+                <div style="font-size: 0.6rem; color: var(--hunter-blue); font-weight: bold; margin-top: 2px;">SOLO LEVELING</div>
+            </div>
+
+            <div class="details-grid">
+                <div class="chip"></div>
+                <div>
+                    성별 남성(male) 클래스 헌터<br>
+                    소속 N/A Republic of Korea<br>
+                    발급기관 대한민국 헌터 협회
+                </div>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <div style="font-size:0.7rem; font-weight:bold; color:#888;">UPDATE LICENSE DATA</div>
+            <input type="text" id="i-name" placeholder="English Name">
+            <select id="i-rank">
+                <option value="S">S-RANK</option>
+                <option value="A">A-RANK</option>
+                <option value="B">B-RANK</option>
+                <option value="C">C-RANK</option>
+                <option value="E">E-RANK</option>
+            </select>
+            <button class="btn-system" onclick="updateLicense()">RE-ISSUE LICENSE</button>
+        </div>
+    </div>
+
+    <div id="sensors" class="section">
+        <div class="control-panel">
+            <div style="display:flex; justify-content:space-between; font-family:'Orbitron';">
+                <span>PEDOMETER</span>
+                <span id="s-txt">0 / 10000</span>
+            </div>
+            <div style="width:100%; height:8px; background:#eee; border-radius:4px; margin:10px 0;">
+                <div id="s-bar" style="height:100%; width:0%; background:var(--hunter-blue); border-radius:4px; transition:0.5s;"></div>
+            </div>
+            <button class="btn-system" onclick="startSync()">START TRACKING</button>
+        </div>
+    </div>
