@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,161 +6,161 @@
     <title>SYSTEM: OVERLORD</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --neon-blue: #00eeff; --dark-bg: #050505; --glass: rgba(0, 238, 255, 0.05); --shadow-blue: 0 0 15px rgba(0, 238, 255, 0.4); }
+        :root { --neon: #00eeff; --dark: #050505; --glass: rgba(0, 238, 255, 0.08); }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--dark-bg); color: #fff; font-family: 'Rajdhani', sans-serif; margin: 0; padding-bottom: 90px; overflow-x: hidden; }
         
+        /* Animated Background */
+        body { 
+            background: var(--dark); color: #fff; font-family: 'Rajdhani', sans-serif; margin: 0; padding-bottom: 90px;
+            background-image: linear-gradient(rgba(0, 238, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 238, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px; animation: bgMove 20s linear infinite;
+        }
+        @keyframes bgMove { from { background-position: 0 0; } to { background-position: 40px 40px; } }
+
         /* Navigation */
-        nav { position: fixed; bottom: 0; width: 100%; background: rgba(5, 5, 5, 0.95); border-top: 1px solid var(--neon-blue); display: flex; justify-content: space-around; padding: 12px 0; z-index: 1000; backdrop-filter: blur(15px); }
+        nav { position: fixed; bottom: 0; width: 100%; background: rgba(5, 5, 5, 0.95); border-top: 2px solid var(--neon); display: flex; justify-content: space-around; padding: 15px 0; z-index: 1000; backdrop-filter: blur(15px); }
         nav button { background: none; border: none; color: #444; font-family: 'Orbitron'; font-size: 0.55rem; cursor: pointer; transition: 0.3s; letter-spacing: 1px; }
-        nav button.active { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
+        nav button.active { color: var(--neon); text-shadow: 0 0 10px var(--neon); }
 
-        .section { display: none; padding: 20px; animation: fadeIn 0.4s ease forwards; }
+        .section { display: none; padding: 20px; animation: arise 0.4s ease-out; }
         .section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        @keyframes arise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Component Styles */
-        .card { background: var(--glass); border: 1px solid rgba(0,238,255,0.15); border-radius: 12px; padding: 20px; margin-bottom: 15px; position: relative; overflow: hidden; }
-        .neon-text { color: var(--neon-blue); text-shadow: var(--shadow-blue); font-family: 'Orbitron'; }
-        
-        /* ID Card Special */
-        .id-card { height: 180px; background: linear-gradient(135deg, #0a0a0a, #151515); border: 1px solid var(--neon-blue); box-shadow: inset 0 0 20px rgba(0,238,255,0.1); }
-        .rank-watermark { position: absolute; right: 10px; bottom: -10px; font-size: 7rem; font-family: 'Orbitron'; color: var(--neon-blue); opacity: 0.05; font-weight: bold; }
+        /* ID Card */
+        .card { background: rgba(10, 10, 10, 0.85); border: 1px solid rgba(0,238,255,0.2); border-radius: 15px; padding: 20px; margin-bottom: 15px; position: relative; overflow: hidden; }
+        .id-card { height: 190px; border: 2px solid var(--neon); box-shadow: 0 0 20px rgba(0,238,255,0.2); }
+        .rank-watermark { position: absolute; right: -5px; bottom: -20px; font-size: 8rem; font-family: 'Orbitron'; color: var(--neon); opacity: 0.07; font-weight: bold; }
+        .lvl-badge { position: absolute; top: 15px; right: 15px; background: var(--neon); color: #000; font-family: 'Orbitron'; padding: 2px 8px; font-size: 0.7rem; font-weight: bold; }
 
-        /* Buttons & Inputs */
-        .btn-action { width: 100%; background: var(--glass); border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 12px; font-family: 'Orbitron'; font-size: 0.7rem; border-radius: 5px; margin-top: 10px; transition: 0.2s; }
-        .btn-action:active { background: var(--neon-blue); color: #000; }
-        input { background: #111; border: 1px solid #333; color: #fff; width: 100%; padding: 10px; border-radius: 5px; margin-top: 5px; font-family: 'Rajdhani'; }
+        /* Inputs & Buttons */
+        .btn { width: 100%; background: var(--glass); border: 1px solid var(--neon); color: var(--neon); padding: 12px; font-family: 'Orbitron'; font-size: 0.7rem; border-radius: 5px; margin-top: 10px; cursor: pointer; }
+        .btn:active { background: var(--neon); color: #000; }
+        input, select { background: #111; border: 1px solid #333; color: #fff; width: 100%; padding: 10px; border-radius: 5px; margin-top: 8px; font-family: 'Rajdhani'; }
 
         /* Progress Bar */
         .bar-bg { width: 100%; height: 6px; background: #111; border-radius: 3px; margin: 10px 0; }
-        .bar-fill { height: 100%; background: var(--neon-blue); width: 0%; transition: 0.5s; box-shadow: 0 0 10px var(--neon-blue); }
-
-        /* Table for Rankings */
-        table { width: 100%; border-collapse: collapse; }
-        td, th { padding: 12px 5px; text-align: left; border-bottom: 1px solid #111; font-size: 0.9rem; }
-        .live-dot { height: 8px; width: 8px; background: #ff3333; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .bar-fill { height: 100%; background: var(--neon); width: 0%; transition: 0.5s; box-shadow: 0 0 10px var(--neon); }
     </style>
 </head>
 <body>
 
     <div id="home" class="section active">
-        <h2 class="neon-text" style="font-size: 1rem; margin-top: 0;">PLAYER STATUS</h2>
+        <h2 style="font-family:'Orbitron'; color:var(--neon); font-size:0.9rem;">PLAYER STATUS</h2>
         <div class="card id-card">
-            <div style="font-size: 0.6rem; letter-spacing: 2px;">HUNTER IDENTITY</div>
-            <div style="font-size: 1.5rem; font-weight: bold; margin-top: 15px;">PLAYER_01</div>
-            <div style="color: var(--neon-blue); font-size: 0.8rem;">LEVEL: 01 (E-RANK)</div>
-            <div class="rank-watermark">E</div>
-            <div style="position: absolute; bottom: 15px; left: 20px; font-size: 0.5rem; opacity: 0.5;">CRYPTO-SYNC: SECURE</div>
+            <div class="lvl-badge" id="d-lvl">LVL. 1</div>
+            <div style="font-family:'Orbitron'; font-size:0.5rem; letter-spacing:2px; color:var(--neon);">HUNTER LICENSE</div>
+            <div id="d-name" style="font-size:1.6rem; font-weight:bold; margin-top:20px; text-transform:uppercase;">PLAYER_01</div>
+            <div id="d-rank" style="color:var(--neon); margin-top:5px;">RANK: E-RANK</div>
+            <div class="rank-watermark" id="d-water">E</div>
         </div>
 
         <div class="card">
-            <div style="display:flex; justify-content:space-between; font-family:'Orbitron'; font-size: 0.7rem;">
-                <span>PEDOMETER</span>
-                <span id="step-txt">0 / 10000</span>
-            </div>
-            <div class="bar-bg"><div id="step-bar" class="bar-fill"></div></div>
-            <button class="btn-action" onclick="syncMotion()">SYNC MOTION SENSORS</button>
+            <div style="font-size:0.7rem; font-family:'Orbitron'; color:var(--neon);">EDIT IDENTITY</div>
+            <input type="text" id="i-name" placeholder="Name">
+            <input type="number" id="i-lvl" placeholder="Level">
+            <select id="i-rank">
+                <option value="E">E-RANK</option><option value="D">D-RANK</option><option value="C">C-RANK</option>
+                <option value="B">B-RANK</option><option value="A">A-RANK</option><option value="S">S-RANK</option>
+            </select>
+            <button class="btn" onclick="save()">REWRITE DATA</button>
         </div>
     </div>
 
     <div id="quest" class="section">
-        <h2 class="neon-text">DAILY QUESTS</h2>
+        <h2 style="font-family:'Orbitron'; color:var(--neon); font-size:0.9rem;">DAILY QUESTS</h2>
         <div class="card">
-            <div style="font-family:'Orbitron'; font-size: 0.7rem; color: #555; margin-bottom: 10px;">SELECT CURRENT STATE:</div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <button class="btn-action" style="margin:0" onclick="setQ('Broken')">FATIGUE</button>
-                <button class="btn-action" style="margin:0" onclick="setQ('Sad')">RECOVERY</button>
-                <button class="btn-action" style="margin:0" onclick="setQ('Angry')">OVERLOAD</button>
-                <button class="btn-action" style="margin:0" onclick="setQ('Neutral')">STABLE</button>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <button class="btn" style="margin:0" onclick="setQ('Broken')">FATIGUE</button>
+                <button class="btn" style="margin:0" onclick="setQ('Neutral')">STABLE</button>
             </div>
         </div>
-        <div id="quest-log" class="card" style="display:none; border-left: 4px solid var(--neon-blue);">
-            <div class="neon-text" style="font-size: 0.7rem;">[ ACTIVE OBJECTIVE ]</div>
-            <p id="q-text" style="margin: 10px 0 0 0; font-size: 1.1rem;"></p>
+        <div id="q-box" class="card" style="display:none; border-left:4px solid var(--neon);">
+            <div style="font-family:'Orbitron'; font-size:0.6rem; color:var(--neon);">[ ACTIVE MISSION ]</div>
+            <p id="q-text" style="font-size:1.2rem; margin:10px 0;"></p>
         </div>
     </div>
 
-    <div id="shop" class="section">
-        <h2 class="neon-text">SYSTEM STORE</h2>
+    <div id="sensor" class="section">
+        <h2 style="font-family:'Orbitron'; color:var(--neon); font-size:0.9rem;">BIOMETRICS</h2>
         <div class="card">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div><strong>HP POTION</strong><br><small style="color:#666;">Instantly clears Fatigue</small></div>
-                <button class="btn-action" style="width:70px; margin:0;">50G</button>
+            <div style="display:flex; justify-content:space-between; font-family:'Orbitron'; font-size:0.7rem;">
+                <span>PEDOMETER</span>
+                <span id="s-txt">0 / 10000</span>
             </div>
-        </div>
-        <div class="card">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div><strong>STRENGTH ELIXIR</strong><br><small style="color:#666;">Perm. Level Up +1</small></div>
-                <button class="btn-action" style="width:70px; margin:0;">500G</button>
-            </div>
+            <div class="bar-bg"><div id="s-bar" class="bar-fill"></div></div>
+            <button class="btn" onclick="sync()">SYNC MOTION SENSORS</button>
         </div>
     </div>
 
     <div id="world" class="section">
-        <h2 class="neon-text"><span class="live-dot"></span>GLOBAL RANKING</h2>
+        <h2 style="font-family:'Orbitron'; color:var(--neon); font-size:0.9rem;">GLOBAL REGISTRY</h2>
         <div class="card">
-            <table>
-                <thead><tr style="color:#444; font-family:'Orbitron'; font-size:0.6rem;"><th>RANK</th><th>HUNTER</th><th>LEVEL</th></tr></thead>
-                <tbody>
-                    <tr><td class="neon-text">01</td><td>Wait For Players...</td><td>--</td></tr>
-                    <tr style="opacity:0.3;"><td>02</td><td>Searching...</td><td>--</td></tr>
-                    <tr style="opacity:0.3;"><td>03</td><td>Searching...</td><td>--</td></tr>
-                </tbody>
-            </table>
-            <p style="font-size: 0.6rem; color: #444; text-align: center; margin-top: 20px;">SYSTEM IS SCANNING REAL-TIME DATA</p>
-        </div>
-    </div>
-
-    <div id="lib" class="section">
-        <h2 class="neon-text">ARCHIVES</h2>
-        <div class="card">
-            <div id="lib-status">Reading: None</div>
-            <input type="text" id="lib-input" placeholder="Update Archive Name...">
-            <button class="btn-action" onclick="saveLib()">UPDATE SYSTEM</button>
+            <div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid #222;">
+                <span class="neon-text">01. SUNG JIN-WOO</span><span>LVL. 99</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:5px 0; opacity:0.3;">
+                <span>02. SEARCHING...</span><span>--</span>
+            </div>
         </div>
     </div>
 
     <nav>
-        <button onclick="navTo('home')" id="b-home" class="active">STATUS</button>
-        <button onclick="navTo('quest')" id="b-quest">QUEST</button>
-        <button onclick="navTo('shop')" id="b-shop">SHOP</button>
-        <button onclick="navTo('world')" id="b-world">WORLD</button>
-        <button onclick="navTo('lib')" id="b-lib">LIBRARY</button>
+        <button onclick="nav('home')" id="n-home" class="active">STATUS</button>
+        <button onclick="nav('quest')" id="n-quest">QUEST</button>
+        <button onclick="nav('sensor')" id="n-sensor">SENSORS</button>
+        <button onclick="nav('world')" id="n-world">WORLD</button>
     </nav>
 
     <script>
-        function navTo(id) {
+        // Memory System
+        window.onload = () => {
+            if(localStorage.getItem('hName')) {
+                document.getElementById('d-name').innerText = localStorage.getItem('hName');
+                document.getElementById('d-rank').innerText = "RANK: " + localStorage.getItem('hRank') + "-RANK";
+                document.getElementById('d-water').innerText = localStorage.getItem('hRank');
+                document.getElementById('d-lvl').innerText = "LVL. " + localStorage.getItem('hLvl');
+            }
+        };
+
+        function save() {
+            let n = document.getElementById('i-name').value;
+            let l = document.getElementById('i-lvl').value;
+            let r = document.getElementById('i-rank').value;
+            if(n) localStorage.setItem('hName', n);
+            if(l) localStorage.setItem('hLvl', l);
+            localStorage.setItem('hRank', r);
+            location.reload();
+        }
+
+        function nav(id) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.getElementById('b-' + id).classList.add('active');
-            window.scrollTo(0,0);
+            document.getElementById('n-' + id).classList.add('active');
         }
 
-        let sCount = 0;
-        function syncMotion() {
-            sCount += Math.floor(Math.random() * 800) + 200;
-            document.getElementById('step-txt').innerText = sCount + " / 10000";
-            document.getElementById('step-bar').style.width = Math.min((sCount/10000)*100, 100) + "%";
+        // Real Sensor Logic
+        let steps = 0;
+        async function sync() {
+            if (typeof DeviceMotionEvent.requestPermission === 'function') {
+                const p = await DeviceMotionEvent.requestPermission();
+                if (p !== 'granted') return;
+            }
+            window.addEventListener('devicemotion', (e) => {
+                let m = Math.abs(e.acceleration.x) + Math.abs(e.acceleration.y);
+                if (m > 15) { 
+                    steps++; 
+                    document.getElementById('s-txt').innerText = steps + " / 10000";
+                    document.getElementById('s-bar').style.width = Math.min((steps/10000)*100, 100) + "%";
+                }
+            });
+            alert("SENSORS ONLINE");
         }
 
         function setQ(m) {
-            const data = {
-                'Broken': 'Absolute Rest. Goal: 3L Water & 8h Sleep.',
-                'Sad': 'Social Link. Goal: Talk to 1 Ally (Nuja).',
-                'Angry': 'Energy Conversion. Goal: 20 Pushups.',
-                'Neutral': 'Maintenance. Goal: Organize 1 Space.'
-            };
-            document.getElementById('q-text').innerText = data[m];
-            document.getElementById('quest-log').style.display = 'block';
-        }
-
-        function saveLib() {
-            let v = document.getElementById('lib-input').value;
-            if(v) { document.getElementById('lib-status').innerText = "Reading: " + v; document.getElementById('lib-input').value = ""; }
+            document.getElementById('q-text').innerText = m == 'Broken' ? "Pushups: 0/100" : "Meditation: 10 Mins";
+            document.getElementById('q-box').style.display = 'block';
         }
     </script>
 </body>
-</html>
+            </html>
