@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solo Leveling System</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body { background: #0a0a0a; color: #00ccff; font-family: sans-serif; text-align: center; padding: 20px; }
+        .mood-btn { margin: 10px; padding: 10px; border: 1px solid #00ccff; background: transparent; color: #00ccff; cursor: pointer; }
+        #id-card { width: 320px; height: 180px; background: linear-gradient(45deg, #1a1a1a, #333); border: 2px solid silver; border-radius: 10px; margin: 20px auto; padding: 15px; position: relative; color: silver; }
+        .quest-box { border: 2px solid #00ccff; padding: 15px; margin-top: 20px; display: none; }
+    </style>
+</head>
+<body>
+    <h1>SYSTEM: MOOD TRACKER</h1>
+    <button class="mood-btn" onclick="setQuest('Broken')">Broken</button>
+    <button class="mood-btn" onclick="setQuest('Sad')">Sad</button>
+    <button class="mood-btn" onclick="setQuest('Angry')">Angry</button>
+
+    <div id="quest-box" class="quest-box">
+        <h3>ACTIVE QUEST:</h3>
+        <p id="quest-text"></p>
+    </div>
+
+    <div id="id-card">
+        <h2 style="margin:0;">HUNTER ID</h2>
+        <p>RANK: S (Developer)</p>
+        <p style="margin-top:40px;">NAME: PLAYER_01</p>
+        <div style="position:absolute; bottom:10px; right:10px; font-size:10px;">SYSTEM AUTHENTICATED</div>
+    </div>
+    
+    <button onclick="downloadID()" style="background:silver; color:black; padding:10px; font-weight:bold; border:none; margin-top:10px;">PRINT ID CARD</button>
+
+    <script>
+        function setQuest(mood) {
+            const quests = {
+                'Broken': 'Daily Quest: Walk 500 steps and drink water. (Recovery)',
+                'Sad': 'Daily Quest: Message a friend "Thank you". (Social Link)',
+                'Angry': 'Daily Quest: 20 Pushups. Channel the heat.'
+            };
+            document.getElementById('quest-text').innerText = quests[mood];
+            document.getElementById('quest-box').style.display = 'block';
+        }
+
+        function downloadID() {
+            html2canvas(document.querySelector("#id-card")).then(canvas => {
+                let link = document.createElement('a');
+                link.download = 'Hunter_ID.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+    </script>
+</body>
+                                                     </html>
