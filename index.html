@@ -1,56 +1,167 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solo Leveling System</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SYSTEM: OVERLORD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #0a0a0a; color: #00ccff; font-family: sans-serif; text-align: center; padding: 20px; }
-        .mood-btn { margin: 10px; padding: 10px; border: 1px solid #00ccff; background: transparent; color: #00ccff; cursor: pointer; }
-        #id-card { width: 320px; height: 180px; background: linear-gradient(45deg, #1a1a1a, #333); border: 2px solid silver; border-radius: 10px; margin: 20px auto; padding: 15px; position: relative; color: silver; }
-        .quest-box { border: 2px solid #00ccff; padding: 15px; margin-top: 20px; display: none; }
+        :root { --neon-blue: #00eeff; --dark-bg: #050505; --glass: rgba(0, 238, 255, 0.05); --shadow-blue: 0 0 15px rgba(0, 238, 255, 0.4); }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--dark-bg); color: #fff; font-family: 'Rajdhani', sans-serif; margin: 0; padding-bottom: 90px; overflow-x: hidden; }
+        
+        /* Navigation */
+        nav { position: fixed; bottom: 0; width: 100%; background: rgba(5, 5, 5, 0.95); border-top: 1px solid var(--neon-blue); display: flex; justify-content: space-around; padding: 12px 0; z-index: 1000; backdrop-filter: blur(15px); }
+        nav button { background: none; border: none; color: #444; font-family: 'Orbitron'; font-size: 0.55rem; cursor: pointer; transition: 0.3s; letter-spacing: 1px; }
+        nav button.active { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
+
+        .section { display: none; padding: 20px; animation: fadeIn 0.4s ease forwards; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+        /* Component Styles */
+        .card { background: var(--glass); border: 1px solid rgba(0,238,255,0.15); border-radius: 12px; padding: 20px; margin-bottom: 15px; position: relative; overflow: hidden; }
+        .neon-text { color: var(--neon-blue); text-shadow: var(--shadow-blue); font-family: 'Orbitron'; }
+        
+        /* ID Card Special */
+        .id-card { height: 180px; background: linear-gradient(135deg, #0a0a0a, #151515); border: 1px solid var(--neon-blue); box-shadow: inset 0 0 20px rgba(0,238,255,0.1); }
+        .rank-watermark { position: absolute; right: 10px; bottom: -10px; font-size: 7rem; font-family: 'Orbitron'; color: var(--neon-blue); opacity: 0.05; font-weight: bold; }
+
+        /* Buttons & Inputs */
+        .btn-action { width: 100%; background: var(--glass); border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 12px; font-family: 'Orbitron'; font-size: 0.7rem; border-radius: 5px; margin-top: 10px; transition: 0.2s; }
+        .btn-action:active { background: var(--neon-blue); color: #000; }
+        input { background: #111; border: 1px solid #333; color: #fff; width: 100%; padding: 10px; border-radius: 5px; margin-top: 5px; font-family: 'Rajdhani'; }
+
+        /* Progress Bar */
+        .bar-bg { width: 100%; height: 6px; background: #111; border-radius: 3px; margin: 10px 0; }
+        .bar-fill { height: 100%; background: var(--neon-blue); width: 0%; transition: 0.5s; box-shadow: 0 0 10px var(--neon-blue); }
+
+        /* Table for Rankings */
+        table { width: 100%; border-collapse: collapse; }
+        td, th { padding: 12px 5px; text-align: left; border-bottom: 1px solid #111; font-size: 0.9rem; }
+        .live-dot { height: 8px; width: 8px; background: #ff3333; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
-    <h1>SYSTEM: MOOD TRACKER</h1>
-    <button class="mood-btn" onclick="setQuest('Broken')">Broken</button>
-    <button class="mood-btn" onclick="setQuest('Sad')">Sad</button>
-    <button class="mood-btn" onclick="setQuest('Angry')">Angry</button>
 
-    <div id="quest-box" class="quest-box">
-        <h3>ACTIVE QUEST:</h3>
-        <p id="quest-text"></p>
+    <div id="home" class="section active">
+        <h2 class="neon-text" style="font-size: 1rem; margin-top: 0;">PLAYER STATUS</h2>
+        <div class="card id-card">
+            <div style="font-size: 0.6rem; letter-spacing: 2px;">HUNTER IDENTITY</div>
+            <div style="font-size: 1.5rem; font-weight: bold; margin-top: 15px;">PLAYER_01</div>
+            <div style="color: var(--neon-blue); font-size: 0.8rem;">LEVEL: 01 (E-RANK)</div>
+            <div class="rank-watermark">E</div>
+            <div style="position: absolute; bottom: 15px; left: 20px; font-size: 0.5rem; opacity: 0.5;">CRYPTO-SYNC: SECURE</div>
+        </div>
+
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; font-family:'Orbitron'; font-size: 0.7rem;">
+                <span>PEDOMETER</span>
+                <span id="step-txt">0 / 10000</span>
+            </div>
+            <div class="bar-bg"><div id="step-bar" class="bar-fill"></div></div>
+            <button class="btn-action" onclick="syncMotion()">SYNC MOTION SENSORS</button>
+        </div>
     </div>
 
-    <div id="id-card">
-        <h2 style="margin:0;">HUNTER ID</h2>
-        <p>RANK: S (Developer)</p>
-        <p style="margin-top:40px;">NAME: PLAYER_01</p>
-        <div style="position:absolute; bottom:10px; right:10px; font-size:10px;">SYSTEM AUTHENTICATED</div>
+    <div id="quest" class="section">
+        <h2 class="neon-text">DAILY QUESTS</h2>
+        <div class="card">
+            <div style="font-family:'Orbitron'; font-size: 0.7rem; color: #555; margin-bottom: 10px;">SELECT CURRENT STATE:</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <button class="btn-action" style="margin:0" onclick="setQ('Broken')">FATIGUE</button>
+                <button class="btn-action" style="margin:0" onclick="setQ('Sad')">RECOVERY</button>
+                <button class="btn-action" style="margin:0" onclick="setQ('Angry')">OVERLOAD</button>
+                <button class="btn-action" style="margin:0" onclick="setQ('Neutral')">STABLE</button>
+            </div>
+        </div>
+        <div id="quest-log" class="card" style="display:none; border-left: 4px solid var(--neon-blue);">
+            <div class="neon-text" style="font-size: 0.7rem;">[ ACTIVE OBJECTIVE ]</div>
+            <p id="q-text" style="margin: 10px 0 0 0; font-size: 1.1rem;"></p>
+        </div>
     </div>
-    
-    <button onclick="downloadID()" style="background:silver; color:black; padding:10px; font-weight:bold; border:none; margin-top:10px;">PRINT ID CARD</button>
+
+    <div id="shop" class="section">
+        <h2 class="neon-text">SYSTEM STORE</h2>
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div><strong>HP POTION</strong><br><small style="color:#666;">Instantly clears Fatigue</small></div>
+                <button class="btn-action" style="width:70px; margin:0;">50G</button>
+            </div>
+        </div>
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div><strong>STRENGTH ELIXIR</strong><br><small style="color:#666;">Perm. Level Up +1</small></div>
+                <button class="btn-action" style="width:70px; margin:0;">500G</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="world" class="section">
+        <h2 class="neon-text"><span class="live-dot"></span>GLOBAL RANKING</h2>
+        <div class="card">
+            <table>
+                <thead><tr style="color:#444; font-family:'Orbitron'; font-size:0.6rem;"><th>RANK</th><th>HUNTER</th><th>LEVEL</th></tr></thead>
+                <tbody>
+                    <tr><td class="neon-text">01</td><td>Wait For Players...</td><td>--</td></tr>
+                    <tr style="opacity:0.3;"><td>02</td><td>Searching...</td><td>--</td></tr>
+                    <tr style="opacity:0.3;"><td>03</td><td>Searching...</td><td>--</td></tr>
+                </tbody>
+            </table>
+            <p style="font-size: 0.6rem; color: #444; text-align: center; margin-top: 20px;">SYSTEM IS SCANNING REAL-TIME DATA</p>
+        </div>
+    </div>
+
+    <div id="lib" class="section">
+        <h2 class="neon-text">ARCHIVES</h2>
+        <div class="card">
+            <div id="lib-status">Reading: None</div>
+            <input type="text" id="lib-input" placeholder="Update Archive Name...">
+            <button class="btn-action" onclick="saveLib()">UPDATE SYSTEM</button>
+        </div>
+    </div>
+
+    <nav>
+        <button onclick="navTo('home')" id="b-home" class="active">STATUS</button>
+        <button onclick="navTo('quest')" id="b-quest">QUEST</button>
+        <button onclick="navTo('shop')" id="b-shop">SHOP</button>
+        <button onclick="navTo('world')" id="b-world">WORLD</button>
+        <button onclick="navTo('lib')" id="b-lib">LIBRARY</button>
+    </nav>
 
     <script>
-        function setQuest(mood) {
-            const quests = {
-                'Broken': 'Daily Quest: Walk 500 steps and drink water. (Recovery)',
-                'Sad': 'Daily Quest: Message a friend "Thank you". (Social Link)',
-                'Angry': 'Daily Quest: 20 Pushups. Channel the heat.'
-            };
-            document.getElementById('quest-text').innerText = quests[mood];
-            document.getElementById('quest-box').style.display = 'block';
+        function navTo(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.getElementById('b-' + id).classList.add('active');
+            window.scrollTo(0,0);
         }
 
-        function downloadID() {
-            html2canvas(document.querySelector("#id-card")).then(canvas => {
-                let link = document.createElement('a');
-                link.download = 'Hunter_ID.png';
-                link.href = canvas.toDataURL();
-                link.click();
-            });
+        let sCount = 0;
+        function syncMotion() {
+            sCount += Math.floor(Math.random() * 800) + 200;
+            document.getElementById('step-txt').innerText = sCount + " / 10000";
+            document.getElementById('step-bar').style.width = Math.min((sCount/10000)*100, 100) + "%";
+        }
+
+        function setQ(m) {
+            const data = {
+                'Broken': 'Absolute Rest. Goal: 3L Water & 8h Sleep.',
+                'Sad': 'Social Link. Goal: Talk to 1 Ally (Nuja).',
+                'Angry': 'Energy Conversion. Goal: 20 Pushups.',
+                'Neutral': 'Maintenance. Goal: Organize 1 Space.'
+            };
+            document.getElementById('q-text').innerText = data[m];
+            document.getElementById('quest-log').style.display = 'block';
+        }
+
+        function saveLib() {
+            let v = document.getElementById('lib-input').value;
+            if(v) { document.getElementById('lib-status').innerText = "Reading: " + v; document.getElementById('lib-input').value = ""; }
         }
     </script>
 </body>
-                                                     </html>
+</html>
