@@ -3,176 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HUNTER REGISTRY: NEURAL SYNC</title>
+    <title>SYSTEM: SUMMONER REGISTRY</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root { 
             --accent: #00eeff; 
-            --glow: rgba(0, 238, 255, 0.4);
+            --glow: rgba(0, 238, 255, 0.6);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             background: #000; color: #fff; font-family: 'Rajdhani', sans-serif; 
             margin: 0; display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh; padding-bottom: 50px;
+            min-height: 100vh; overflow-x: hidden; padding-bottom: 40px;
         }
 
-        /* DYNAMIC SCI-FI CARD */
-        .card-container { margin-top: 40px; perspective: 1000px; padding: 10px; }
-        
+        /* DYNAMIC CHARACTER BACKGROUND (SIDE/BEHIND) */
+        .summon-container {
+            position: relative; width: 100%; max-width: 500px; height: 450px;
+            display: flex; justify-content: center; align-items: flex-end;
+            margin-top: 20px;
+        }
+
+        .anime-phantom {
+            position: absolute; top: 0; width: 100%; height: 100%;
+            object-fit: contain; opacity: 0.7; z-index: 1;
+            filter: drop-shadow(0 0 20px var(--accent));
+            transition: all 0.8s ease-in-out;
+            mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+        }
+
+        /* THE LICENSE CARD (FRONT) */
         .hunter-card {
-            width: 370px; height: 220px;
-            background: rgba(10, 10, 15, 0.95);
-            border: 2px solid var(--accent);
-            border-radius: 12px;
-            position: relative;
-            display: flex;
-            padding: 15px;
-            box-shadow: 0 0 30px var(--glow), inset 0 0 20px rgba(0,0,0,0.8);
-            overflow: hidden;
-            transition: all 0.4s ease;
+            width: 360px; height: 210px;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
+            border: 2px solid var(--accent); position: relative;
+            display: flex; padding: 15px; z-index: 10;
+            box-shadow: 0 0 30px var(--glow);
+            clip-path: polygon(5% 0, 95% 0, 100% 10%, 100% 90%, 95% 100%, 5% 100%, 0 90%, 0 10%);
         }
 
-        /* Tech Detail Borders */
-        .hunter-card::after {
-            content: ""; position: absolute; bottom: 0; right: 0;
-            width: 50px; height: 50px;
-            background: linear-gradient(135deg, transparent 50%, var(--accent) 50%);
-            opacity: 0.3;
-        }
-
-        /* Photo Section */
+        /* Photo Slot (Left) */
         .photo-wrap {
-            width: 115px; height: 100%;
-            border: 1px solid var(--accent);
-            background: #111;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 15px var(--glow);
+            width: 110px; height: 100%; border: 1px solid var(--accent);
+            background: #111; overflow: hidden; position: relative;
         }
-        .photo-wrap img { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; }
-        
-        /* Side Info Area */
-        .info-side {
-            flex: 1;
-            padding-left: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+        .photo-wrap img { width: 100%; height: 100%; object-fit: cover; }
 
-        .char-name {
-            font-family: 'Orbitron'; font-size: 1.4rem; font-weight: bold;
-            color: #fff; text-shadow: 0 0 10px var(--accent);
-            margin-bottom: 8px; text-transform: uppercase;
-        }
+        /* Data Side (Right) */
+        .data-side { flex: 1; padding-left: 15px; display: flex; flex-direction: column; justify-content: center; }
+        .name-txt { font-family: 'Orbitron'; font-size: 1.2rem; font-weight: bold; color: #fff; text-shadow: 0 0 10px var(--accent); margin-bottom: 5px; }
+        .label { font-family: 'Orbitron'; font-size: 0.55rem; color: var(--accent); margin-top: 5px; }
+        .value { font-size: 0.85rem; color: #fff; font-weight: bold; text-transform: uppercase; }
 
-        .row { font-size: 0.6rem; font-family: 'Orbitron'; color: var(--accent); margin: 3px 0; letter-spacing: 1px; }
-        .val { color: #fff; font-family: 'Rajdhani'; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; }
-
-        /* INPUT AREA */
-        .controls {
-            width: 95%; max-width: 400px; 
-            margin-top: 25px; background: rgba(15,15,20,0.9);
-            padding: 20px; border-radius: 10px; border: 1px solid #333;
-        }
-
-        .upload-label {
-            display: block; width: 100%; padding: 10px; background: #222;
-            border: 1px dashed var(--accent); color: var(--accent);
-            text-align: center; font-family: 'Orbitron'; font-size: 0.6rem;
-            cursor: pointer; margin-bottom: 10px;
-        }
-        #file-input { display: none; }
-
-        select, input {
-            width: 100%; padding: 12px; background: #000; border: 1px solid #444;
-            color: #fff; margin-bottom: 10px; border-radius: 5px; font-family: 'Rajdhani';
-        }
-
-        .btn-sync {
-            width: 100%; padding: 15px; background: transparent; 
-            border: 2px solid var(--accent); color: var(--accent);
-            font-family: 'Orbitron'; font-size: 0.8rem; cursor: pointer;
-        }
-        .btn-sync:active { background: var(--accent); color: #000; }
-
+        /* INPUTS */
+        .editor { width: 90%; max-width: 400px; background: #111; padding: 20px; border-radius: 10px; border: 1px solid #333; margin-top: -20px; z-index: 20; }
+        input, select { width: 100%; padding: 12px; background: #000; border: 1px solid #444; color: #fff; margin-bottom: 10px; border-radius: 5px; font-family: 'Rajdhani'; }
+        .btn-main { width: 100%; padding: 15px; background: var(--accent); color: #000; border: none; font-family: 'Orbitron'; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div style="margin-top:20px; font-family:'Orbitron'; color:var(--accent); font-size:0.8rem; letter-spacing:3px;">SYSTEM REGISTRY</div>
-
-    <div class="card-container">
-        <div class="hunter-card" id="card">
+    <div class="summon-container">
+        <img id="phantom-img" class="anime-phantom" src="https://i.ibb.co/Ldf888v/jinwoo-phantom.png" alt="summon">
+        
+        <div class="hunter-card">
             <div class="photo-wrap">
                 <img id="card-photo" src="https://i.pinimg.com/736x/21/87/44/218744b82d9664687700e31818d89e18.jpg">
             </div>
-            
-            <div class="info-side">
-                <div class="char-name" id="d-name">SUNG JINWOO</div>
-                
-                <div class="row">COUNTRY: <span class="val" id="d-country">S. KOREA</span></div>
-                <div class="row">STATE: <span class="val" id="d-state">SEOUL METRO</span></div>
-                <div class="row">CAPITAL: <span class="val" id="d-capital">SEOUL</span></div>
-                <div class="row" style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:5px;">RANK: <span class="val" style="color:var(--accent)">S-RANK</span></div>
+            <div class="data-side">
+                <div class="name-txt" id="d-name">SUNG JINWOO</div>
+                <div class="label">COUNTRY</div>
+                <div class="value" id="d-country">S. KOREA</div>
+                <div class="label">STATE / CAPITAL</div>
+                <div class="value" id="d-loc">SEOUL / SEOUL</div>
+                <div class="label" style="margin-top:10px;">RANK: <span style="color:#fff">S-RANK</span></div>
             </div>
         </div>
     </div>
 
-    <div class="controls">
-        <label style="font-size:0.6rem; color:var(--accent); font-family:'Orbitron';">SELECT THEME</label>
-        <select id="theme-sel" onchange="applyTheme()">
-            <option value="#00eeff">JINWOO (CYAN)</option>
-            <option value="#ff004c">MADARA (RED)</option>
-            <option value="#00ff4c">ZORO (GREEN)</option>
-            <option value="#8a2be2">AIZEN (PURPLE)</option>
-            <option value="#ffcc00">GOKU (ORANGE)</option>
+    <div class="editor">
+        <label style="font-size:0.7rem; color:var(--accent); font-family:'Orbitron';">CHOOSE YOUR SUMMON</label>
+        <select id="char-sel" onchange="changeSummon()">
+            <option value="#00eeff" data-phantom="https://i.imgur.com/vHqY7bE.png">SUNG JINWOO (Cyan)</option>
+            <option value="#ff004c" data-phantom="https://i.imgur.com/k6lPqS7.png">MADARA UCHIHA (Red)</option>
+            <option value="#00ff4c" data-phantom="https://i.imgur.com/yO8pX7v.png">RORONOA ZORO (Green)</option>
+            <option value="#8a2be2" data-phantom="https://i.imgur.com/qE6LqXv.png">SOSUKE AIZEN (Purple)</option>
         </select>
 
-        <label for="file-input" class="upload-label">UPLOAD HUNTER PHOTO</label>
-        <input type="file" id="file-input" accept="image/*" onchange="handleImage()">
+        <input type="file" id="f-in" style="display:none" onchange="loadPhoto()">
+        <button onclick="document.getElementById('f-in').click()" style="width:100%; background:#222; color:var(--accent); border:1px dashed var(--accent); padding:10px; margin-bottom:10px; cursor:pointer;">UPLOAD YOUR PHOTO</button>
 
-        <input type="text" id="in-name" placeholder="Name">
+        <input type="text" id="i-name" placeholder="Name">
+        <input type="text" id="i-country" placeholder="Country">
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-            <input type="text" id="in-country" placeholder="Country">
-            <input type="text" id="in-state" placeholder="State">
+            <input type="text" id="i-state" placeholder="State">
+            <input type="text" id="i-capital" placeholder="Capital">
         </div>
-        <input type="text" id="in-capital" placeholder="Capital">
-
-        <button class="btn-sync" onclick="syncSystem()">SYNC IDENTITY</button>
+        <button class="btn-main" onclick="updateAll()">UPDATE REGISTRY</button>
     </div>
 
     <script>
-        function applyTheme() {
-            const color = document.getElementById('theme-sel').value;
+        function changeSummon() {
+            const sel = document.getElementById('char-sel');
+            const color = sel.value;
+            const phantomUrl = sel.options[sel.selectedIndex].getAttribute('data-phantom');
+
             document.documentElement.style.setProperty('--accent', color);
-            document.documentElement.style.setProperty('--glow', color + '66');
+            document.documentElement.style.setProperty('--glow', color + '99');
+            document.getElementById('phantom-img').src = phantomUrl;
         }
 
-        function handleImage() {
-            const file = document.getElementById('file-input').files[0];
+        function loadPhoto() {
+            const file = document.getElementById('f-in').files[0];
             const reader = new FileReader();
-            reader.onloadend = function() {
-                document.getElementById('card-photo').src = reader.result;
-            }
-            if (file) { reader.readAsDataURL(file); }
+            reader.onloadend = () => { document.getElementById('card-photo').src = reader.result; }
+            if (file) reader.readAsDataURL(file);
         }
 
-        function syncSystem() {
-            const name = document.getElementById('in-name').value;
-            const country = document.getElementById('in-country').value;
-            const state = document.getElementById('in-state').value;
-            const capital = document.getElementById('in-capital').value;
+        function updateAll() {
+            const n = document.getElementById('i-name').value;
+            const c = document.getElementById('i-country').value;
+            const s = document.getElementById('i-state').value;
+            const cap = document.getElementById('i-capital').value;
 
-            if(name) document.getElementById('d-name').innerText = name.toUpperCase();
-            if(country) document.getElementById('d-country').innerText = country.toUpperCase();
-            if(state) document.getElementById('d-state').innerText = state.toUpperCase();
-            if(capital) document.getElementById('d-capital').innerText = capital.toUpperCase();
-
-            alert("SYSTEM: Identity synchronized with the Multiverse.");
+            if(n) document.getElementById('d-name').innerText = n.toUpperCase();
+            if(c) document.getElementById('d-country').innerText = c.toUpperCase();
+            if(s && cap) document.getElementById('d-loc').innerText = `${s.toUpperCase()} / ${cap.toUpperCase()}`;
+            alert("SYSTEM: Summon Link Established.");
         }
     </script>
 </body>
-    </html>
+            </html>
